@@ -4,8 +4,10 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "tsc": "tsc -b",
-    "lint": "eslint ./src/**/*.ts --fix"
+    "build": "tsc -b",
+    "lint": "eslint ./src/**/*.ts --fix",
+    "prestart": "npm run lint & npm run build",
+    "start": "node dist/server.js"
   },
   "keywords": [],
   "author": "",
