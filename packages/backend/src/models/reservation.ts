@@ -6,7 +6,7 @@ export interface IReservation extends Document {
     guestContact: string;
     arrivalTime: string;
     tableSize: number;
-    status: 'pending' | 'completed' | 'canceled';
+    status: 'pending' | 'completed' | 'cancelled';
 }
 
 const ReservationSchema: Schema = new Schema({

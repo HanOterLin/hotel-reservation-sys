@@ -28,17 +28,20 @@ const Login: React.FC<LoginProps> = ({ setUser }) => {
         }
     };
 
+    const handleToRegister = () => {
+        navigate('/register');
+    };
+
     return (
         <Container component="main" maxWidth="xs">
             <Box
                 sx={{
-                    marginTop: 8,
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
                 }}
             >
-                <Typography component="h1" variant="h5">Reservation System</Typography>
+                <Typography component="h1" variant="h4">Reservation System</Typography>
                 <TextField
                     variant="outlined"
                     margin="normal"
@@ -70,8 +73,10 @@ const Login: React.FC<LoginProps> = ({ setUser }) => {
                 <Button
                     fullWidth
                     color="primary"
+                    variant="outlined"
+                    onClick={handleToRegister}
                 >
-                    <Link to="/register" >Register</Link>
+                    Register
                 </Button>
             </Box>
         </Container>

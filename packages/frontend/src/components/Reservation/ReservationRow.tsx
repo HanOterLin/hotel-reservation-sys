@@ -26,7 +26,7 @@ const ReservationRow: React.FC<ReservationRowProps> = ({ reservation, user, refe
         if (
             editedGuestName !== reservation.guestName ||
             editedGuestContact !== reservation.guestContact ||
-            editedArrivalTime !== reservation.arrivalTime ||
+            (editedArrivalTime?.getTime() + '') !== reservation.arrivalTime ||
             editedTableSize !== reservation.tableSize ||
             editedStatus !== reservation.status
         ) {
@@ -55,12 +55,14 @@ const ReservationRow: React.FC<ReservationRowProps> = ({ reservation, user, refe
         <TableRow>
             <TableCell>
                 <TextField
+                    inputProps={{ maxLength: 127 }}
                     value={editedGuestName}
                     onChange={(e) => setEditedGuestName(e.target.value)}
                 />
             </TableCell>
             <TableCell>
                 <TextField
+                    inputProps={{ maxLength: 127 }}
                     value={editedGuestContact}
                     onChange={(e) => setEditedGuestContact(e.target.value)}
                 />
@@ -70,12 +72,14 @@ const ReservationRow: React.FC<ReservationRowProps> = ({ reservation, user, refe
                     selected={editedArrivalTime}
                     onChange={(date: Date | null) => setEditedArrivalTime(date)}
                     onBlur={handleSave}
+                    minDate={new Date()}
                     customInput={<TextField />}
                 />
             </TableCell>
             <TableCell>
                 <TextField
                     type="number"
+                    inputProps={{ min: 1, max: 10 }}
                     value={editedTableSize}
                     onChange={(e) => setEditedTableSize(Number(e.target.value))}
                 />
@@ -95,7 +99,7 @@ const ReservationRow: React.FC<ReservationRowProps> = ({ reservation, user, refe
                 )}
             </TableCell>
             <TableCell>
-                <Button variant="contained" color="primary" onClick={handleSave} disabled={!hasChanges || user.role !== 'restaurant_employee'}>
+                <Button variant="contained" color="primary" onClick={handleSave} disabled={!hasChanges}>
                     Save
                 </Button>
             </TableCell>

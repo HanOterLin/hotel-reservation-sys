@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { TextField, Button, Typography, Container, Box } from '@mui/material';
 import { toast } from 'react-toastify';
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface LoginProps {
     setUser: (user: any) => void;
@@ -26,6 +26,10 @@ const Register: React.FC<LoginProps> = ({ setUser }) => {
             console.error('Register failed', err);
             toast.error('Register failed');
         }
+    };
+
+    const handleBack = () => {
+        navigate('/');
     };
 
     return (
@@ -66,6 +70,12 @@ const Register: React.FC<LoginProps> = ({ setUser }) => {
                     onClick={handleRegister}
                 >
                     Register
+                </Button>
+                <Button 
+                fullWidth variant="outlined" 
+                onClick={handleBack}
+                >
+                    Back
                 </Button>
             </Box>
         </Container>

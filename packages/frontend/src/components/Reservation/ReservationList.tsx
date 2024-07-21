@@ -96,7 +96,7 @@ const ReservationList: React.FC<ReservationListProps> = ({user, setUser}) => {
                         </MenuItem>
                         <MenuItem value="pending">Pending</MenuItem>
                         <MenuItem value="completed">Completed</MenuItem>
-                        <MenuItem value="canceled">Canceled</MenuItem>
+                        <MenuItem value="cancelled">Cancelled</MenuItem>
                     </Select>
                 </FormControl>
             </Box>
