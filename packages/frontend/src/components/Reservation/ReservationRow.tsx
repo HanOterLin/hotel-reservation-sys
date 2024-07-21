@@ -15,7 +15,7 @@ interface ReservationRowProps {
 const ReservationRow: React.FC<ReservationRowProps> = ({ reservation, user, refetch  }) => {
     const [editedGuestName, setEditedGuestName] = useState(reservation.guestName);
     const [editedGuestContact, setEditedGuestContact] = useState(reservation.guestContact);
-    const [editedArrivalTime, setEditedArrivalTime] = useState<Date | null>(reservation.arrivalTime);
+    const [editedArrivalTime, setEditedArrivalTime] = useState<Date | null>(new Date(Number(reservation.arrivalTime)));
     const [editedTableSize, setEditedTableSize] = useState(reservation.tableSize);
     const [editedStatus, setEditedStatus] = useState(reservation.status);
     const [hasChanges, setHasChanges] = useState(false);
@@ -42,7 +42,7 @@ const ReservationRow: React.FC<ReservationRowProps> = ({ reservation, user, refe
                 id: reservation.id,
                 guestName: editedGuestName,
                 guestContact: editedGuestContact,
-                arrivalTime: editedArrivalTime,
+                arrivalTime: editedArrivalTime?.getTime() + '',
                 tableSize: editedTableSize,
                 status: editedStatus,
             },

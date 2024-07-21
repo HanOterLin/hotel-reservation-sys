@@ -27,7 +27,7 @@ const ReservationForm: React.FC = () => {
             variables: {
                 guestName,
                 guestContact,
-                arrivalTime,
+                arrivalTime: arrivalTime?.getTime() + '',
                 tableSize,
             },
         });

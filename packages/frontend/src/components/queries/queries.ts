@@ -1,21 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const GET_RESERVATIONS = gql`
-  query GetReservations {
-    reservations {
-      id
-      guestName
-      guestContact
-      arrivalTime
-      tableSize
-      status
-    }
-  }
-`;
-
-export const GET_USER_RESERVATIONS = gql`
-  query GetUserReservations($userId: ID!) {
-    reservations(userId: $userId) {
+  query GetReservations($userId: ID = null, $arrivalTime: String, $status: String) {
+    reservations(userId: $userId, arrivalTime: $arrivalTime, status: $status) {
       id
       guestName
       guestContact

@@ -30,7 +30,7 @@ const typeDefs = `#graphql
 
   type Query {
     users: [User]
-    reservations(userId: ID = null): [Reservation]
+    reservations(userId: ID = null, arrivalTime: String, status: String): [Reservation]
   }
 
   type Mutation {
@@ -49,21 +49,26 @@ const typeDefs = `#graphql
       tableSize: Int,
       status: String
     ): Reservation
-    deleteReservation(id: ID!): Reservation
-    markReservationStatus(id: ID!, status: String!): Reservation
   }
 `;
 
 const resolvers = {
     Query: {
         users: async () => await User.find(),
-        reservations: async (_: void, { userId }: { userId?: string }) => {
+        reservations: async (_: void, { userId, arrivalTime, status }: { userId?: string, arrivalTime?: string, status?: string }) => {
             let result = [];
-            if (userId) {
-                result = await Reservation.find({ guestId: userId });
-            } else {
-                result = await Reservation.find();
+            const opts = {};
+            if(userId){
+                Object.assign(opts, { guestId: userId });
             }
+            if(status){
+                Object.assign(opts, { status });
+            }
+            if(arrivalTime){
+                Object.assign(opts, { arrivalTime });
+            }
+
+            result = await Reservation.find(opts);
             
             return result;
         },
