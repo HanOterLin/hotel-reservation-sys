@@ -26,7 +26,7 @@ const ReservationRow: React.FC<ReservationRowProps> = ({ reservation, user, refe
         if (
             editedGuestName !== reservation.guestName ||
             editedGuestContact !== reservation.guestContact ||
-            editedArrivalTime !== reservation.arrivalTime ||
+            (editedArrivalTime?.getTime() + '') !== reservation.arrivalTime ||
             editedTableSize !== reservation.tableSize ||
             editedStatus !== reservation.status
         ) {
@@ -95,7 +95,7 @@ const ReservationRow: React.FC<ReservationRowProps> = ({ reservation, user, refe
                 )}
             </TableCell>
             <TableCell>
-                <Button variant="contained" color="primary" onClick={handleSave} disabled={!hasChanges || user.role !== 'restaurant_employee'}>
+                <Button variant="contained" color="primary" onClick={handleSave} disabled={!hasChanges}>
                     Save
                 </Button>
             </TableCell>
