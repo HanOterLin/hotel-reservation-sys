@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { TextField, Grid, Button } from '@mui/material';
-
-interface ReservationFormProps {
-    onSubmit: (reservation: Reservation) => void;
-}
+import { useMutation } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
+import { CREATE_RESERVATION } from '../queries/mutations';
 
 interface Reservation {
     guestName: string;
@@ -14,19 +13,29 @@ interface Reservation {
     tableSize: number;
 }
 
-const ReservationForm: React.FC<ReservationFormProps> = ({ onSubmit }) => {
+const ReservationForm: React.FC = () => {
     const [guestName, setGuestName] = useState('');
     const [guestContact, setGuestContact] = useState('');
     const [arrivalTime, setArrivalTime] = useState<Date | null>(null);
     const [tableSize, setTableSize] = useState<number>(0);
 
-    const handleSubmit = () => {
-        onSubmit({
-            guestName,
-            guestContact,
-            arrivalTime,
-            tableSize,
+    const navigate = useNavigate();
+    const [createReservation] = useMutation(CREATE_RESERVATION);
+
+    const handleSubmit = async () => {
+        await createReservation({
+            variables: {
+                guestName,
+                guestContact,
+                arrivalTime,
+                tableSize,
+            },
         });
+        navigate('/');
+    };
+
+    const handleBack = () => {
+        navigate('/');
     };
 
     return (
@@ -68,6 +77,9 @@ const ReservationForm: React.FC<ReservationFormProps> = ({ onSubmit }) => {
                 <Grid item xs={12}>
                     <Button variant="contained" color="primary" onClick={handleSubmit}>
                         Submit
+                    </Button>
+                    <Button variant="outlined" onClick={handleBack}>
+                        Back
                     </Button>
                 </Grid>
             </Grid>

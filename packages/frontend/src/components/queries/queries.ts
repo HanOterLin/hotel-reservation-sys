@@ -15,7 +15,7 @@ export const GET_RESERVATIONS = gql`
 
 export const GET_USER_RESERVATIONS = gql`
   query GetUserReservations($userId: ID!) {
-    userReservations(userId: $userId) {
+    reservations(userId: $userId) {
       id
       guestName
       guestContact

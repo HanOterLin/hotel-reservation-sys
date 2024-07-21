@@ -2,19 +2,29 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { TextField, Button, Typography, Container, Box } from '@mui/material';
 import { toast } from 'react-toastify';
+import {useNavigate} from "react-router-dom";
 
-const Register: React.FC = () => {
+interface LoginProps {
+    setUser: (user: any) => void;
+}
+
+const Register: React.FC<LoginProps> = ({ setUser }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [email, setEmail] = useState('');
+    const navigate = useNavigate();
 
     const handleRegister = async () => {
         try {
-            await axios.post('http://localhost:3001/auth/register', { username, password, email });
-            toast.success('Registration successful');
+            const res = await axios.post('http://localhost:3001/auth/register', { username, password, role: 'guest' });
+            setUser(res.data);
+            localStorage.setItem('user', JSON.stringify(res.data));
+            const token = res.headers['authorization'];
+            localStorage.setItem('token', token);
+            toast.success('Register successful');
+            navigate('/');
         } catch (err) {
-            console.error('Registration failed', err);
-            toast.error('Registration failed');
+            console.error('Register failed', err);
+            toast.error('Register failed');
         }
     };
 
@@ -37,15 +47,6 @@ const Register: React.FC = () => {
                     label="Username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                />
-                <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    label="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
                 />
                 <TextField
                     variant="outlined"

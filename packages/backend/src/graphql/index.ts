@@ -58,11 +58,14 @@ const resolvers = {
     Query: {
         users: async () => await User.find(),
         reservations: async (_: void, { userId }: { userId?: string }) => {
+            let result = [];
             if (userId) {
-                return Reservation.find({ guestId: userId });
+                result = await Reservation.find({ guestId: userId });
             } else {
-                return Reservation.find();
+                result = await Reservation.find();
             }
+            
+            return result;
         },
     },
     Mutation: {
@@ -100,12 +103,6 @@ const resolvers = {
             return Reservation.findByIdAndUpdate(
                 id, { guestName, guestContact, arrivalTime, tableSize, status }, { new: true }
             );
-        },
-        deleteReservation: async (_: void, { id }: { id: string }) => {
-            return Reservation.findByIdAndDelete(id);
-        },
-        markReservationStatus: async (_: void, { id, status }: { id: string, status: string }) => {
-            return Reservation.findByIdAndUpdate(id, { status }, { new: true });
         }
     }
 };

@@ -1,21 +1,9 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { TextField, Grid, Button } from '@mui/material';
-import { ApolloQueryResult, OperationVariables } from '@apollo/client';
-
-interface Reservation {
-    id: string;
-    guestName: string;
-    guestContact: string;
-    arrivalTime: Date | null;
-    tableSize: number;
-    status: string;
-}
-
-interface User {
-    role: string; // Define as needed
-}
+import { TextField, TableRow, TableCell, Button, Select, MenuItem } from '@mui/material';
+import {ApolloQueryResult, OperationVariables, useMutation} from '@apollo/client';
+import {UPDATE_RESERVATION} from "../queries/mutations";
 
 interface ReservationRowProps {
     reservation: any;
@@ -29,57 +17,89 @@ const ReservationRow: React.FC<ReservationRowProps> = ({ reservation, user, refe
     const [editedGuestContact, setEditedGuestContact] = useState(reservation.guestContact);
     const [editedArrivalTime, setEditedArrivalTime] = useState<Date | null>(reservation.arrivalTime);
     const [editedTableSize, setEditedTableSize] = useState(reservation.tableSize);
+    const [editedStatus, setEditedStatus] = useState(reservation.status);
+    const [hasChanges, setHasChanges] = useState(false);
 
-    const handleSave = () => {
-        refetch ({
-            ...reservation,
-            guestName: editedGuestName,
-            guestContact: editedGuestContact,
-            arrivalTime: editedArrivalTime,
-            tableSize: editedTableSize,
+    const [updateReservation] = useMutation(UPDATE_RESERVATION);
+
+    useEffect(() => {
+        if (
+            editedGuestName !== reservation.guestName ||
+            editedGuestContact !== reservation.guestContact ||
+            editedArrivalTime !== reservation.arrivalTime ||
+            editedTableSize !== reservation.tableSize ||
+            editedStatus !== reservation.status
+        ) {
+            setHasChanges(true);
+        } else {
+            setHasChanges(false);
+        }
+    }, [editedGuestName, editedGuestContact, editedArrivalTime, editedTableSize, editedStatus, reservation]);
+
+    const handleSave = async () => {
+        await updateReservation({
+            variables: {
+                id: reservation.id,
+                guestName: editedGuestName,
+                guestContact: editedGuestContact,
+                arrivalTime: editedArrivalTime,
+                tableSize: editedTableSize,
+                status: editedStatus,
+            },
         });
+        setHasChanges(false);
+        refetch();
     };
 
     return (
-        <Grid container spacing={2} alignItems="center">
-            <Grid item xs={3}>
+        <TableRow>
+            <TableCell>
                 <TextField
                     value={editedGuestName}
                     onChange={(e) => setEditedGuestName(e.target.value)}
-                    fullWidth
                 />
-            </Grid>
-            <Grid item xs={3}>
+            </TableCell>
+            <TableCell>
                 <TextField
                     value={editedGuestContact}
                     onChange={(e) => setEditedGuestContact(e.target.value)}
-                    fullWidth
                 />
-            </Grid>
-            <Grid item xs={3}>
+            </TableCell>
+            <TableCell>
                 <DatePicker
                     selected={editedArrivalTime}
                     onChange={(date: Date | null) => setEditedArrivalTime(date)}
                     onBlur={handleSave}
                     customInput={<TextField />}
                 />
-            </Grid>
-            <Grid item xs={2}>
+            </TableCell>
+            <TableCell>
                 <TextField
                     type="number"
                     value={editedTableSize}
                     onChange={(e) => setEditedTableSize(Number(e.target.value))}
-                    fullWidth
                 />
-            </Grid>
-            {user.role === 'restaurant_employee' && (
-                <Grid item xs={1}>
-                    <Button variant="contained" color="primary" onClick={handleSave}>
-                        Save
-                    </Button>
-                </Grid>
-            )}
-        </Grid>
+            </TableCell>
+            <TableCell>
+                {(user.role === 'restaurant_employee') ? (
+                    <Select
+                        value={editedStatus}
+                        onChange={(e) => setEditedStatus(e.target.value)}
+                    >
+                        <MenuItem value="pending">Pending</MenuItem>
+                        <MenuItem value="completed">Completed</MenuItem>
+                        <MenuItem value="cancelled">Cancelled</MenuItem>
+                    </Select>
+                ) : (
+                    editedStatus
+                )}
+            </TableCell>
+            <TableCell>
+                <Button variant="contained" color="primary" onClick={handleSave} disabled={!hasChanges || user.role !== 'restaurant_employee'}>
+                    Save
+                </Button>
+            </TableCell>
+        </TableRow>
     );
 };
 
