@@ -30,7 +30,7 @@ const typeDefs = `#graphql
 
   type Query {
     users: [User]
-    reservations(userId: ID = null): [Reservation]
+    reservations(userId: ID = null, arrivalTime: String, status: String): [Reservation]
   }
 
   type Mutation {
@@ -49,20 +49,28 @@ const typeDefs = `#graphql
       tableSize: Int,
       status: String
     ): Reservation
-    deleteReservation(id: ID!): Reservation
-    markReservationStatus(id: ID!, status: String!): Reservation
   }
 `;
 
 const resolvers = {
     Query: {
         users: async () => await User.find(),
-        reservations: async (_: void, { userId }: { userId?: string }) => {
-            if (userId) {
-                return Reservation.find({ guestId: userId });
-            } else {
-                return Reservation.find();
+        reservations: async (_: void, { userId, arrivalTime, status }: { userId?: string, arrivalTime?: string, status?: string }) => {
+            let result = [];
+            const opts = {};
+            if(userId){
+                Object.assign(opts, { guestId: userId });
             }
+            if(status){
+                Object.assign(opts, { status });
+            }
+            if(arrivalTime){
+                Object.assign(opts, { arrivalTime });
+            }
+
+            result = await Reservation.find(opts);
+            
+            return result;
         },
     },
     Mutation: {
@@ -100,12 +108,6 @@ const resolvers = {
             return Reservation.findByIdAndUpdate(
                 id, { guestName, guestContact, arrivalTime, tableSize, status }, { new: true }
             );
-        },
-        deleteReservation: async (_: void, { id }: { id: string }) => {
-            return Reservation.findByIdAndDelete(id);
-        },
-        markReservationStatus: async (_: void, { id, status }: { id: string, status: string }) => {
-            return Reservation.findByIdAndUpdate(id, { status }, { new: true });
         }
     }
 };
