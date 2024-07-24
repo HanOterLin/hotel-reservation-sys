@@ -3,8 +3,8 @@ import User from '../models/user';
 import Reservation from '../models/reservation';
 import bcrypt from "bcryptjs";
 import express from "express";
-import {ApolloServer} from '@apollo/server';
-import { expressMiddleware} from '@apollo/server/express4';
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import * as http from "node:http";
 
@@ -58,18 +58,18 @@ const resolvers = {
         reservations: async (_: void, { userId, arrivalTime, status }: { userId?: string, arrivalTime?: string, status?: string }) => {
             let result = [];
             const opts = {};
-            if(userId){
+            if (userId) {
                 Object.assign(opts, { guestId: userId });
             }
-            if(status){
+            if (status) {
                 Object.assign(opts, { status });
             }
-            if(arrivalTime){
+            if (arrivalTime) {
                 Object.assign(opts, { arrivalTime });
             }
 
             result = await Reservation.find(opts);
-            
+
             return result;
         },
     },

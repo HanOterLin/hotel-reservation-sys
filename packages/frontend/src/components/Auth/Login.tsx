@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import {TextField, Button, Typography, Container, Box} from '@mui/material';
+import { TextField, Button, Typography, Container, Box } from '@mui/material';
 import { toast } from 'react-toastify';
-import {Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface LoginProps {
     setUser: (user: any) => void;

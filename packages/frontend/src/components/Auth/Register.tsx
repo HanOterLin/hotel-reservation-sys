@@ -71,9 +71,9 @@ const Register: React.FC<LoginProps> = ({ setUser }) => {
                 >
                     Register
                 </Button>
-                <Button 
-                fullWidth variant="outlined" 
-                onClick={handleBack}
+                <Button
+                    fullWidth variant="outlined"
+                    onClick={handleBack}
                 >
                     Back
                 </Button>

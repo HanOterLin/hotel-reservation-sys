@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { TextField, TableRow, TableCell, Button, Select, MenuItem } from '@mui/material';
-import {ApolloQueryResult, OperationVariables, useMutation} from '@apollo/client';
-import {UPDATE_RESERVATION} from "../queries/mutations";
+import { ApolloQueryResult, OperationVariables, useMutation } from '@apollo/client';
+import { UPDATE_RESERVATION } from "../queries/mutations";
 
 interface ReservationRowProps {
     reservation: any;
@@ -12,7 +12,7 @@ interface ReservationRowProps {
 }
 
 
-const ReservationRow: React.FC<ReservationRowProps> = ({ reservation, user, refetch  }) => {
+const ReservationRow: React.FC<ReservationRowProps> = ({ reservation, user, refetch }) => {
     const [editedGuestName, setEditedGuestName] = useState(reservation.guestName);
     const [editedGuestContact, setEditedGuestContact] = useState(reservation.guestContact);
     const [editedArrivalTime, setEditedArrivalTime] = useState<Date | null>(new Date(Number(reservation.arrivalTime)));
