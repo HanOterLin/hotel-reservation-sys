@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { ApolloProvider } from '@apollo/client';
 import client from './apollo-client';
-import { BrowserRouter as Router, Routes, Route, Navigate  } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Auth/Login';
 import ReservationList from './components/Reservation/ReservationList';
 import Toast from './components/Toast/Toast';
 import { User } from './types';
 import Register from "./components/Auth/Register";
 import ReservationForm from "./components/Reservation/ReservationForm";
-import {Box, CircularProgress} from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 
 const App: React.FC = () => {
     const [user, setUser] = useState<User | null>(null);
@@ -35,10 +35,6 @@ const App: React.FC = () => {
             <Router>
                 <div className="App">
                     <Routes>
-                        {/*<Route*/}
-                        {/*    path="/"*/}
-                        {/*    element={user ? <ReservationList user={user} setUser={setUser} /> : <Navigate to="/login" />}*/}
-                        {/*/>*/}
                         <Route path="/login" element={<Login setUser={setUser} />} />
                         <Route path="/register" element={<Register setUser={setUser} />} />
                         <Route path="/create-reservation" element={<ReservationForm />} />

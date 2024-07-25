@@ -9,7 +9,8 @@ body {
   height: 100vh;
 }
 
-.auth-container, .reservation-container {
+.auth-container,
+.reservation-container {
   background-color: #ffffff;
   padding: 20px;
   border-radius: 8px;
@@ -30,7 +31,9 @@ button:hover {
   background-color: #0056b3;
 }
 
-input, select, .react-datepicker-wrapper {
+input,
+select,
+.react-datepicker-wrapper {
   display: block;
   margin-top: 10px;
   padding: 10px;
@@ -72,7 +75,8 @@ input, select, .react-datepicker-wrapper {
   background-color: #e9ecef;
 }
 
-.reservation-list li input, .reservation-list li select {
+.reservation-list li input,
+.reservation-list li select {
   flex-grow: 1;
   margin-right: 10px;
 }

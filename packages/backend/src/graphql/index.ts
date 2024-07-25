@@ -3,8 +3,8 @@ import User from '../models/user';
 import Reservation from '../models/reservation';
 import bcrypt from "bcryptjs";
 import express from "express";
-import {ApolloServer} from '@apollo/server';
-import { expressMiddleware} from '@apollo/server/express4';
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import * as http from "node:http";
 
@@ -55,27 +55,30 @@ const typeDefs = `#graphql
 const resolvers = {
     Query: {
         users: async () => await User.find(),
-        reservations: async (_: void, { userId, arrivalTime, status }: { userId?: string, arrivalTime?: string, status?: string }) => {
+        reservations: async (
+            _: never,
+            { userId, arrivalTime, status }: { userId?: string, arrivalTime?: string, status?: string }
+        ) => {
             let result = [];
             const opts = {};
-            if(userId){
+            if (userId) {
                 Object.assign(opts, { guestId: userId });
             }
-            if(status){
+            if (status) {
                 Object.assign(opts, { status });
             }
-            if(arrivalTime){
+            if (arrivalTime) {
                 Object.assign(opts, { arrivalTime });
             }
 
             result = await Reservation.find(opts);
-            
+
             return result;
         },
     },
     Mutation: {
         createUser: async (
-            _: void,
+            _: never,
             { username, password, role }: { username: string, password: string, role: string }
         ) => {
             const hashedPassword = bcrypt.hashSync(password, 8);
@@ -84,7 +87,7 @@ const resolvers = {
             return newUser;
         },
         createReservation: async (
-            _: void,
+            _: never,
             { guestName, guestContact, arrivalTime, tableSize }:
                 { guestName: string, guestContact: string, arrivalTime: string, tableSize: number },
             context: ApolloContext
@@ -101,9 +104,12 @@ const resolvers = {
             return newReservation;
         },
         updateReservation: async (
-            _: void,
+            _: never,
             { id, guestName, guestContact, arrivalTime, tableSize, status }:
-                { id: string, guestName?: string, guestContact?: string, arrivalTime?: string, tableSize?: number, status?: string }
+                {
+                    id: string, guestName?: string, guestContact?: string,
+                    arrivalTime?: string, tableSize?: number, status?: string
+                }
         ) => {
             return Reservation.findByIdAndUpdate(
                 id, { guestName, guestContact, arrivalTime, tableSize, status }, { new: true }

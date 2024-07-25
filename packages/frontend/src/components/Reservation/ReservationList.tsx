@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {useQuery} from '@apollo/client';
-import {GET_RESERVATIONS} from '../queries/queries';
+import React, { useEffect, useState } from 'react';
+import { useQuery } from '@apollo/client';
+import { GET_RESERVATIONS } from '../queries/queries';
 import ReservationRow from './ReservationRow';
 import {
     Container,
@@ -14,33 +14,34 @@ import {
     Typography,
     Button, Box, FormControl, InputLabel, Select, MenuItem
 } from '@mui/material';
-import {Link, useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
+import {Reservation, User} from "../../types";
 
 interface ReservationListProps {
-    user: any;
-    setUser: (user: any) => void;
+    user: User;
+    setUser: (user: User | null) => void;
 }
 
-const ReservationList: React.FC<ReservationListProps> = ({user, setUser}) => {
+const ReservationList: React.FC<ReservationListProps> = ({ user, setUser }) => {
     const navigate = useNavigate();
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [selectedStatus, setSelectedStatus] = useState<string>('');
 
-    const {loading, error, data, refetch} = useQuery(
+    const { loading, error, data, refetch } = useQuery(
         GET_RESERVATIONS, {
-            variables: {
-                userId: user.role === 'guest' ? user.id : undefined,
-                arrivalTime: selectedDate ? (selectedDate.getTime() + '') : undefined,
-                status: selectedStatus || undefined,
-            },
-            context: {
-                headers: {
-                    authentication: `Bearer ${localStorage.getItem('token')}`
-                }
-            },
-            skip: !user,
-        });
+        variables: {
+            userId: user.role === 'guest' ? user.id : undefined,
+            arrivalTime: selectedDate ? (selectedDate.getTime() + '') : undefined,
+            status: selectedStatus || undefined,
+        },
+        context: {
+            headers: {
+                authentication: `Bearer ${localStorage.getItem('token')}`
+            }
+        },
+        skip: !user,
+    });
 
     const handleCreate = () => {
         navigate('/create-reservation'); // Navigate back to the ReservationList page
@@ -113,9 +114,9 @@ const ReservationList: React.FC<ReservationListProps> = ({user, setUser}) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {data.reservations.map((reservation: any) => (
+                        {data.reservations.map((reservation: Reservation) => (
                             <ReservationRow key={reservation.id} reservation={reservation} user={user}
-                                            refetch={refetch}/>
+                                refetch={refetch} />
                         ))}
                     </TableBody>
                 </Table>

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt, {JwtPayload, Secret} from 'jsonwebtoken';
+import jwt, { JwtPayload, Secret } from 'jsonwebtoken';
 
 const secret: Secret = 'secret_key';
 
@@ -18,7 +18,7 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
     try {
         const tokenWithoutBearer = token.split(' ')[1];
         jwtPayload = jwt.verify(tokenWithoutBearer, secret) as JwtPayload;
-    }catch (err) {
+    } catch (err) {
         return res.status(500).send({ message: 'Failed to authenticate token' });
     }
 

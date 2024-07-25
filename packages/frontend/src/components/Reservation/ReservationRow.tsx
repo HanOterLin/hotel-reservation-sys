@@ -1,18 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { TextField, TableRow, TableCell, Button, Select, MenuItem } from '@mui/material';
-import {ApolloQueryResult, OperationVariables, useMutation} from '@apollo/client';
-import {UPDATE_RESERVATION} from "../queries/mutations";
+import {TextField, TableRow, TableCell, Button, Select, MenuItem, InputLabel, FormControl} from '@mui/material';
+import { ApolloQueryResult, OperationVariables, useMutation } from '@apollo/client';
+import { UPDATE_RESERVATION } from "../queries/mutations";
+import {Reservation, User} from "../../types";
 
 interface ReservationRowProps {
-    reservation: any;
-    user: any;
+    reservation: Reservation;
+    user: User;
     refetch: (variables?: Partial<OperationVariables>) => Promise<ApolloQueryResult<any>>;
 }
 
 
-const ReservationRow: React.FC<ReservationRowProps> = ({ reservation, user, refetch  }) => {
+const ReservationRow: React.FC<ReservationRowProps> = ({ reservation, user, refetch }) => {
     const [editedGuestName, setEditedGuestName] = useState(reservation.guestName);
     const [editedGuestContact, setEditedGuestContact] = useState(reservation.guestContact);
     const [editedArrivalTime, setEditedArrivalTime] = useState<Date | null>(new Date(Number(reservation.arrivalTime)));
@@ -77,12 +78,18 @@ const ReservationRow: React.FC<ReservationRowProps> = ({ reservation, user, refe
                 />
             </TableCell>
             <TableCell>
-                <TextField
-                    type="number"
-                    inputProps={{ min: 1, max: 10 }}
-                    value={editedTableSize}
-                    onChange={(e) => setEditedTableSize(Number(e.target.value))}
-                />
+                <FormControl fullWidth variant="outlined" margin="normal">
+                    <InputLabel>Table Size</InputLabel>
+                    <Select
+                        value={editedTableSize}
+                        onChange={(e) => setEditedTableSize(Number(e.target.value))}
+                        label="Table Size"
+                    >
+                        {[2, 4, 6, 8, 10].map(size => (
+                            <MenuItem key={size} value={size}>{size}</MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
             </TableCell>
             <TableCell>
                 {(user.role === 'restaurant_employee') ? (
