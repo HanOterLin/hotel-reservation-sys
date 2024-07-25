@@ -55,7 +55,10 @@ const typeDefs = `#graphql
 const resolvers = {
     Query: {
         users: async () => await User.find(),
-        reservations: async (_: void, { userId, arrivalTime, status }: { userId?: string, arrivalTime?: string, status?: string }) => {
+        reservations: async (
+            _: never,
+            { userId, arrivalTime, status }: { userId?: string, arrivalTime?: string, status?: string }
+        ) => {
             let result = [];
             const opts = {};
             if (userId) {
@@ -75,7 +78,7 @@ const resolvers = {
     },
     Mutation: {
         createUser: async (
-            _: void,
+            _: never,
             { username, password, role }: { username: string, password: string, role: string }
         ) => {
             const hashedPassword = bcrypt.hashSync(password, 8);
@@ -84,7 +87,7 @@ const resolvers = {
             return newUser;
         },
         createReservation: async (
-            _: void,
+            _: never,
             { guestName, guestContact, arrivalTime, tableSize }:
                 { guestName: string, guestContact: string, arrivalTime: string, tableSize: number },
             context: ApolloContext
@@ -101,9 +104,12 @@ const resolvers = {
             return newReservation;
         },
         updateReservation: async (
-            _: void,
+            _: never,
             { id, guestName, guestContact, arrivalTime, tableSize, status }:
-                { id: string, guestName?: string, guestContact?: string, arrivalTime?: string, tableSize?: number, status?: string }
+                {
+                    id: string, guestName?: string, guestContact?: string,
+                    arrivalTime?: string, tableSize?: number, status?: string
+                }
         ) => {
             return Reservation.findByIdAndUpdate(
                 id, { guestName, guestContact, arrivalTime, tableSize, status }, { new: true }

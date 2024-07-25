@@ -3,9 +3,10 @@ import axios from 'axios';
 import { TextField, Button, Typography, Container, Box } from '@mui/material';
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
+import {User} from "../../types";
 
 interface LoginProps {
-    setUser: (user: any) => void;
+    setUser: (user: User) => void;
 }
 
 const Register: React.FC<LoginProps> = ({ setUser }) => {

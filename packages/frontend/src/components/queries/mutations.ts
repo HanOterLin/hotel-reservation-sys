@@ -24,8 +24,14 @@ export const CREATE_RESERVATION = gql`
 `;
 
 export const UPDATE_RESERVATION = gql`
-  mutation UpdateReservation($id: ID!, $guestName: String!, $guestContact: String!, $arrivalTime: String!, $tableSize: Int!, $status: String!) {
-    updateReservation(id: $id, guestName: $guestName, guestContact: $guestContact, arrivalTime: $arrivalTime, tableSize: $tableSize, status: $status) {
+  mutation UpdateReservation(
+    $id: ID!, $guestName: String!, $guestContact: String!, 
+    $arrivalTime: String!, $tableSize: Int!, $status: String!
+  ) {
+    updateReservation(
+        id: $id, guestName: $guestName, guestContact: $guestContact,
+        arrivalTime: $arrivalTime, tableSize: $tableSize, status: $status
+    ) {
       id
       guestName
       guestContact

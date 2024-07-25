@@ -14,12 +14,13 @@ import {
     Typography,
     Button, Box, FormControl, InputLabel, Select, MenuItem
 } from '@mui/material';
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
+import {Reservation, User} from "../../types";
 
 interface ReservationListProps {
-    user: any;
-    setUser: (user: any) => void;
+    user: User;
+    setUser: (user: User | null) => void;
 }
 
 const ReservationList: React.FC<ReservationListProps> = ({ user, setUser }) => {
@@ -113,7 +114,7 @@ const ReservationList: React.FC<ReservationListProps> = ({ user, setUser }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {data.reservations.map((reservation: any) => (
+                        {data.reservations.map((reservation: Reservation) => (
                             <ReservationRow key={reservation.id} reservation={reservation} user={user}
                                 refetch={refetch} />
                         ))}

@@ -1,24 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from'react';
+import ReactDOM from'react-dom/client';
+
 import App from './App';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
-const client = new ApolloClient({
-    uri: 'http://localhost:4000/graphql',
-    cache: new InMemoryCache()
-});
-
-const theme = createTheme();
-
-ReactDOM.render(
-    <ApolloProvider client={client}>
-        <ThemeProvider theme={theme}>
+const rootElement = document.getElementById('root');
+if (rootElement) {
+    const root = ReactDOM.createRoot(rootElement);
+    root.render(
+        <React.StrictMode>
             <App />
-            <ToastContainer />
-        </ThemeProvider>
-    </ApolloProvider>,
-    document.getElementById('root')
-);
+        </React.StrictMode>
+    );
+} else {
+    console.error('Root element not found!');
+}
