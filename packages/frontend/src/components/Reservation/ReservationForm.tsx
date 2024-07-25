@@ -1,7 +1,18 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { TextField, Grid, Button, Container, Typography, Box } from '@mui/material';
+import {
+    TextField,
+    Grid,
+    Button,
+    Container,
+    Typography,
+    Box,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem
+} from '@mui/material';
 import { useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 import { CREATE_RESERVATION } from '../queries/mutations';
@@ -83,17 +94,18 @@ const ReservationForm: React.FC = () => {
                         />
                     </Grid>
                     <Grid item xs={12} md={15}>
-                        <TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            type="number"
-                            label="Table Size"
-                            inputProps={{ min: 1, max: 10 }}
-                            value={tableSize}
-                            onChange={(e) => setTableSize(Number(e.target.value))}
-                            fullWidth
-                        />
+                        <FormControl fullWidth variant="outlined" margin="normal">
+                            <InputLabel>Table Size</InputLabel>
+                            <Select
+                                value={tableSize}
+                                onChange={(e) => setTableSize(Number(e.target.value))}
+                                label="Table Size"
+                            >
+                                {[2, 4, 6, 8, 10].map(size => (
+                                    <MenuItem key={size} value={size}>{size}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
                     </Grid>
                     <Grid item xs={12}>
                         <Button variant="contained" color="primary" onClick={handleSubmit}>

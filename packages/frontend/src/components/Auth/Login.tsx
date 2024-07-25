@@ -1,30 +1,42 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { TextField, Button, Typography, Container, Box } from '@mui/material';
-import { toast } from 'react-toastify';
-import { Link, useNavigate } from "react-router-dom";
+import React, {useState} from 'react';
+import {TextField, Button, Typography, Container, Box} from '@mui/material';
+import {toast} from 'react-toastify';
+import {useNavigate} from "react-router-dom";
+import {User} from "../Types/User";
+import {LOGIN_MUTATION} from "../queries/mutations";
+import {useMutation} from "@apollo/client";
 
 interface LoginProps {
-    setUser: (user: any) => void;
+    setUser: (user: User) => void
 }
 
-const Login: React.FC<LoginProps> = ({ setUser }) => {
+const Login: React.FC<LoginProps> = ({setUser}) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
+    const [login, { loading }] = useMutation(LOGIN_MUTATION, {
+        onCompleted: (data) => {
+            if (data?.login) {
+                setUser(data.login.user);
+                localStorage.setItem('user', JSON.stringify(data.login.user));
+                const token = data.login.accessToken;
+                localStorage.setItem('token', token);
+                toast.success('Login successful');
+                navigate('/');
+            }
+        },
+        onError: (error) => {
+            console.error('Login failed', error);
+            toast.error('Login failed');
+        }
+    });
+
     const handleLogin = async () => {
         try {
-            const res = await axios.post('http://localhost:3001/auth/login', { username, password });
-            setUser(res.data);
-            localStorage.setItem('user', JSON.stringify(res.data));
-            const token = res.headers['authorization'];
-            localStorage.setItem('token', token);
-            toast.success('Login successful');
-            navigate('/');
+            await login({ variables: { username, password } });
         } catch (err) {
-            console.error('Login failed', err);
-            toast.error('Login failed');
+            console.error('Error during login mutation', err);
         }
     };
 
@@ -75,6 +87,7 @@ const Login: React.FC<LoginProps> = ({ setUser }) => {
                     color="primary"
                     variant="outlined"
                     onClick={handleToRegister}
+                    disabled={loading}
                 >
                     Register
                 </Button>

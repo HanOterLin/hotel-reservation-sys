@@ -1,30 +1,44 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios, {AxiosInstance} from 'axios';
 import { TextField, Button, Typography, Container, Box } from '@mui/material';
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
+import {User} from "../Types/User";
+import {useMutation} from "@apollo/client";
+import {REGISTER_MUTATION} from "../queries/mutations";
 
-interface LoginProps {
-    setUser: (user: any) => void;
+interface RegisterProps {
+    apiClient?: AxiosInstance,
+    setUser: (user: User) => void;
 }
 
-const Register: React.FC<LoginProps> = ({ setUser }) => {
+const Register: React.FC<RegisterProps> = ({ setUser }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
+    const [register, { loading }] = useMutation(REGISTER_MUTATION, {
+        onCompleted: (data) => {
+            if (data?.register) {
+                setUser(data.register.user);
+                localStorage.setItem('user', JSON.stringify(data.register.user));
+                const token = data.register.accessToken;
+                localStorage.setItem('token', token);
+                toast.success('Register successful');
+                navigate('/');
+            }
+        },
+        onError: (error) => {
+            console.error('Register failed', error);
+            toast.error('Register failed');
+        }
+    });
+
     const handleRegister = async () => {
         try {
-            const res = await axios.post('http://localhost:3001/auth/register', { username, password, role: 'guest' });
-            setUser(res.data);
-            localStorage.setItem('user', JSON.stringify(res.data));
-            const token = res.headers['authorization'];
-            localStorage.setItem('token', token);
-            toast.success('Register successful');
-            navigate('/');
+            await register({ variables: { username, password } });
         } catch (err) {
-            console.error('Register failed', err);
-            toast.error('Register failed');
+            console.error('Error during Register mutation', err);
         }
     };
 
@@ -74,6 +88,7 @@ const Register: React.FC<LoginProps> = ({ setUser }) => {
                 <Button
                     fullWidth variant="outlined"
                     onClick={handleBack}
+                    disabled={loading}
                 >
                     Back
                 </Button>

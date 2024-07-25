@@ -2,10 +2,10 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
-import authRoutes from './routes/auth';
+import bcrypt from "bcryptjs";
+import cookieParser from 'cookie-parser';
 import { setupGraphQL } from './graphql';
 import User from "./models/user";
-import bcrypt from "bcryptjs";
 import { verifyToken } from "./middlewares/authMiddleware";
 
 const app = express();
@@ -18,7 +18,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/hotel-reservation', {
 
     // ensure only default user 'admin'
     await User.findOneAndDelete({ username: 'admin' });
-    const newUser = new User({ username: 'admin', password: bcrypt.hashSync('admin', 8), role: 'restaurant_employee' });
+    const newUser = new User({ username: 'admin', password: bcrypt.hashSync('admin', 10), role: 'restaurant_employee' });
     await newUser.save();
 
 }).catch(err => {
@@ -32,16 +32,17 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 // Add middleware to expose a custom header in the CORS response
-app.use((req, res, next) => {
-    res.header('Access-Control-Expose-Headers', 'authorization');
-    next();
-});
+// app.use((req, res, next) => {
+//     res.header('Access-Control-Expose-Headers', 'authorization');
+//     next();
+// });
 
 
-app.use('/auth', authRoutes);
-app.use('/graphql', verifyToken);
+// app.use('/auth', authRoutes);
+// app.use('/graphql', verifyToken);
 
 setupGraphQL(app);
 
