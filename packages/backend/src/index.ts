@@ -3,6 +3,7 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import authRoutes from './routes/auth';
+import reservationRoutes from "./routes/reservationRoutes";
 import { setupGraphQL } from './graphql';
 import User from "./models/user";
 import bcrypt from "bcryptjs";
@@ -41,6 +42,7 @@ app.use((req, res, next) => {
 
 
 app.use('/auth', authRoutes);
+app.use('/api', verifyToken, reservationRoutes);
 app.use('/graphql', verifyToken);
 
 setupGraphQL(app);
