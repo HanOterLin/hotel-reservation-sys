@@ -102,7 +102,13 @@ const ReservationRow: React.FC<ReservationRowProps> = ({ reservation, user, refe
                         <MenuItem value="cancelled">Cancelled</MenuItem>
                     </Select>
                 ) : (
-                    editedStatus
+                    <Select
+                        value={editedStatus}
+                        onChange={(e) => setEditedStatus(e.target.value)}
+                    >
+                        <MenuItem value="pending">Pending</MenuItem>
+                        <MenuItem value="cancelled">Cancelled</MenuItem>
+                    </Select>
                 )}
             </TableCell>
             <TableCell>

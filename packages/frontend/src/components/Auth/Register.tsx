@@ -37,13 +37,12 @@ const Register: React.FC<LoginProps> = ({ setUser }) => {
         <Container component="main" maxWidth="xs">
             <Box
                 sx={{
-                    marginTop: 8,
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
                 }}
             >
-                <Typography component="h1" variant="h5">Register</Typography>
+                <Typography component="h1" variant="h4">Register</Typography>
                 <TextField
                     variant="outlined"
                     margin="normal"

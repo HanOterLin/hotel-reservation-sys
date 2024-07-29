@@ -1,4 +1,5 @@
 import mongoose, { Document, Schema } from 'mongoose';
+import {ReservationStatus} from "../types";
 
 export interface IReservation extends Document {
     guestId: mongoose.Types.ObjectId;
@@ -6,7 +7,7 @@ export interface IReservation extends Document {
     guestContact: string;
     arrivalTime: string;
     tableSize: number;
-    status: 'pending' | 'completed' | 'cancelled';
+    status: ReservationStatus;
 }
 
 const ReservationSchema: Schema = new Schema({

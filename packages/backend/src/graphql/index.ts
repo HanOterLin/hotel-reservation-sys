@@ -1,15 +1,17 @@
-import { RequestWithUser } from "../types";
+import {RequestWithUser, ReservationStatus, UserRole} from "../types";
 import User from '../models/user';
-import Reservation from '../models/reservation';
 import bcrypt from "bcryptjs";
 import express from "express";
-import { ApolloServer } from '@apollo/server';
+import {ApolloServer, BaseContext} from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import * as http from "node:http";
+import {ReservStatus, UserRoles} from "../constants";
+import Reservation from "../models/reservation";
 
-interface ApolloContext {
+interface ApolloContext extends BaseContext{
     userId: string;
+    role: UserRole
 }
 
 const typeDefs = `#graphql
@@ -29,12 +31,10 @@ const typeDefs = `#graphql
   }
 
   type Query {
-    users: [User]
     reservations(userId: ID = null, arrivalTime: String, status: String): [Reservation]
   }
 
   type Mutation {
-    createUser(username: String!, password: String!, role: String!): User
     createReservation(
       guestName: String!,
       guestContact: String!,
@@ -54,38 +54,35 @@ const typeDefs = `#graphql
 
 const resolvers = {
     Query: {
-        users: async () => await User.find(),
         reservations: async (
             _: never,
-            { userId, arrivalTime, status }: { userId?: string, arrivalTime?: string, status?: string }
+            { userId, arrivalTime, status }: {
+                userId?: string, arrivalTime?: string, status?: ReservationStatus
+            },
+            context: ApolloContext
         ) => {
-            let result = [];
-            const opts = {};
-            if (userId) {
-                Object.assign(opts, { guestId: userId });
-            }
-            if (status) {
-                Object.assign(opts, { status });
-            }
-            if (arrivalTime) {
-                Object.assign(opts, { arrivalTime });
+            const queryConditions: {
+                guestId?: string
+                status?: ReservationStatus
+                arrivalTime?: string
+            } = {};
+
+            if (userId) queryConditions.guestId = userId;
+            if (status) queryConditions.status = status;
+            if (arrivalTime) queryConditions.arrivalTime = arrivalTime;
+
+            let reservations = await Reservation.find(queryConditions);
+
+            if (context.role === UserRoles.GUEST) {
+                reservations = reservations.filter(
+                    (reservation: { status: string }) => reservation.status !== ReservStatus.CANCELLED
+                );
             }
 
-            result = await Reservation.find(opts);
-
-            return result;
-        },
+            return reservations;
+        }
     },
     Mutation: {
-        createUser: async (
-            _: never,
-            { username, password, role }: { username: string, password: string, role: string }
-        ) => {
-            const hashedPassword = bcrypt.hashSync(password, 8);
-            const newUser = new User({ username, password: hashedPassword, role });
-            await newUser.save();
-            return newUser;
-        },
         createReservation: async (
             _: never,
             { guestName, guestContact, arrivalTime, tableSize }:
@@ -120,7 +117,7 @@ const resolvers = {
 
 export const setupGraphQL = async (app: express.Application) => {
     const httpServer = http.createServer(app);
-    const server = new ApolloServer({
+    const server = new ApolloServer<ApolloContext>({
         typeDefs,
         resolvers,
         plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
@@ -135,6 +132,7 @@ export const setupGraphQL = async (app: express.Application) => {
             const request = req as RequestWithUser;
             return {
                 userId: request.userId,
+                role: request.role,
             };
         }
     }));
