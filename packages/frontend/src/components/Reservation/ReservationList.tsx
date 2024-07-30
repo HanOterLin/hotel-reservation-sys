@@ -113,7 +113,7 @@ const ReservationList: React.FC<ReservationListProps> = ({ user, setUser }) => {
                             <TableCell align={"center"}>Arrival Time</TableCell>
                             <TableCell align={"center"}>Table Size</TableCell>
                             <TableCell align={"center"}>Status</TableCell>
-                            {user.role === 'restaurant_employee' && <TableCell align={"center"}>Actions</TableCell>}
+                            <TableCell align={"center"}>Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
