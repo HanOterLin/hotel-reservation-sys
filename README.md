@@ -1,7 +1,7 @@
-# Hotel Reservation System
+# Hotel Restaurants Reservation System
 
 ## Project Overview
-The Hotel Reservation System is a single-page application built using React, Apollo Client, and GraphQL. 
+The Hotel Restaurants Reservation System is a single-page application built using React, Apollo Client, and GraphQL. 
 Users can register and log in to the system and manage reservations based on their roles (guest or restaurant employee).
 
 ## Key Features
