@@ -11,7 +11,7 @@ import {
     InputLabel,
     Select,
     MenuItem,
-    FormControl
+    FormControl, Stack
 } from '@mui/material';
 import { useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
@@ -42,7 +42,7 @@ const ReservationForm: React.FC = () => {
                 }
             },
         });
-        toast.success('Create successful', { autoClose: 1000 });
+        toast.success('Create successful', { autoClose: 600 });
         navigate('/');
     };
 
@@ -109,12 +109,14 @@ const ReservationForm: React.FC = () => {
                         </FormControl>
                     </Grid>
                     <Grid item xs={12}>
-                        <Button variant="contained" color="primary" onClick={handleSubmit} style={{ marginRight: '10px' }}>
-                            Create
-                        </Button>
-                        <Button variant="outlined" onClick={handleBack}>
-                            Back
-                        </Button>
+                        <Stack spacing={2}>
+                            <Button variant="contained" color="primary" onClick={handleSubmit}>
+                                Create
+                            </Button>
+                            <Button variant="outlined" onClick={handleBack}>
+                                Back
+                            </Button>
+                        </Stack>
                     </Grid>
                 </Grid>
             </Box>

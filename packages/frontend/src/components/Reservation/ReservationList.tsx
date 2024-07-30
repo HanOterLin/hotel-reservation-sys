@@ -12,7 +12,7 @@ import {
     TableRow,
     Paper,
     Typography,
-    Button, Box, FormControl, InputLabel, Select, MenuItem, TextField
+    Button, Box, FormControl, InputLabel, Select, MenuItem, TextField, Stack
 } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
@@ -64,19 +64,19 @@ const ReservationList: React.FC<ReservationListProps> = ({ user, setUser }) => {
     if (error) return <p>Error: {error.message}</p>;
 
     return (
-        <Container style={{ minWidth: '1000px'}}>
+        <Container style={{ minWidth: '1200px'}}>
             <Box display="flex" justifyContent="space-between" alignItems="center" mb={3} style={{ marginTop: '30px' }}>
                 <Typography variant="h3" align="center" gutterBottom>
                     Reservation List
                 </Typography>
-                <Box display="flex" alignItems="center">
-                    <Button variant="contained" color="primary" onClick={handleCreate} style={{ marginRight: '10px' }}>
+                <Stack direction="row" spacing={2}>
+                    <Button onClick={handleCreate} variant="contained">
                         Create
                     </Button>
-                    <Button variant="outlined" color="secondary" onClick={handleLogout}>
+                    <Button color="secondary" variant="outlined" onClick={handleLogout}>
                         Logout
                     </Button>
-                </Box>
+                </Stack>
             </Box>
             <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
                 <FormControl variant="outlined" style={{ minWidth: 120 }}>
@@ -113,7 +113,7 @@ const ReservationList: React.FC<ReservationListProps> = ({ user, setUser }) => {
                             <TableCell align={"center"}>Arrival Time</TableCell>
                             <TableCell align={"center"}>Table Size</TableCell>
                             <TableCell align={"center"}>Status</TableCell>
-                            {user.role === 'restaurant_employee' && <TableCell align={"center"}>Actions</TableCell>}
+                            <TableCell align={"center"}>Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

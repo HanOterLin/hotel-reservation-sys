@@ -78,7 +78,7 @@ const ReservationRow: React.FC<ReservationRowProps> = ({ reservation, user, refe
             </TableCell>
             <TableCell>
                 <FormControl fullWidth variant="outlined" margin="normal">
-                    <InputLabel>Table Size</InputLabel>
+                    <InputLabel>Size</InputLabel>
                     <Select
                         value={editedTableSize}
                         onChange={(e) => setEditedTableSize(Number(e.target.value))}

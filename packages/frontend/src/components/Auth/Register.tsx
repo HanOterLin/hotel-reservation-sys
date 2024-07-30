@@ -22,11 +22,11 @@ const Register: React.FC<LoginProps> = ({ setUser }) => {
             localStorage.setItem('user', JSON.stringify(res.data));
             const token = res.headers['authorization'];
             localStorage.setItem('token', token);
-            toast.success('Register successful', { autoClose: 1000 });
+            toast.success('Register successful', { autoClose: 600 });
             navigate('/');
         } catch (err) {
             console.error('Register failed', err);
-            toast.error('Register failed', { autoClose: 1000 });
+            toast.error('Register failed', { autoClose: 600 });
         }
     };
 
