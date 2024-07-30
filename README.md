@@ -24,7 +24,7 @@ Users can register and log in to the system and manage reservations based on the
 ### Installation Steps
 1. Clone the project repository
     ```bash
-    git clone https://github.com/your-repo/hotel-reservation-sys.git
+    git clone https://github.com/HanOterLin/hotel-reservation-sys.git
     cd hotel-reservation-sys
     ```
 
