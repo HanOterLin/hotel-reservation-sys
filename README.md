@@ -1,7 +1,8 @@
 # Hotel Reservation System
 
 ## Project Overview
-The Hotel Reservation System is a single-page application built using React, Apollo Client, and GraphQL. Users can register and log in to the system and manage reservations based on their roles (guest or restaurant employee).
+The Hotel Reservation System is a single-page application built using React, Apollo Client, and GraphQL. 
+Users can register and log in to the system and manage reservations based on their roles (guest or restaurant employee).
 
 ## Key Features
 - User registration and login
@@ -11,13 +12,13 @@ The Hotel Reservation System is a single-page application built using React, Apo
 ## Tech Stack
 - Frontend: React, TypeScript
 - State Management and Data Fetching: Apollo Client, GraphQL
-- Styling: Material-UI, react-datepicker
+- Styling: Material-UI
 - Routing: React Router
 
 ## Installation and Setup
 
 ### Prerequisites
-- Node.js (version 18.x)
+- Node.js (version 20.x)
 - npm
 
 ### Installation Steps
@@ -29,20 +30,12 @@ The Hotel Reservation System is a single-page application built using React, Apo
 
 2. Install dependencies
     ```bash
-    cd backend
-    npm install
-    # and
-    cd frontend
-    npm install
+    npx pnpm install
     ```
 
 3. Start the project
     ```bash
-    cd backend
-    npm start
-    # and
-    cd frontend
-    npm start
+    npx pnpm start
     ```
 
     The project will run at `http://localhost:3000`.
