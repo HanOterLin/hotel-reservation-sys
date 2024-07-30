@@ -1,6 +1,5 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f4f9;
   margin: 0;
   padding: 0;
   display: flex;
@@ -9,74 +8,7 @@ body {
   height: 100vh;
 }
 
-.auth-container,
-.reservation-container {
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-button {
-  margin-top: 10px;
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-input,
-select,
-.react-datepicker-wrapper {
-  display: block;
-  margin-top: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.auth-container {
-  max-width: 400px;
-  width: 100%;
-  text-align: center;
-}
-
-.reservation-container {
-  max-width: 800px;
-  width: 100%;
-}
-
-.reservation-list {
-  list-style-type: none;
-  padding: 0;
-}
-
-.reservation-list li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
-}
-
-.reservation-list li span {
-  cursor: pointer;
-}
-
-.reservation-list li span:hover {
-  background-color: #e9ecef;
-}
-
-.reservation-list li input,
-.reservation-list li select {
-  flex-grow: 1;
-  margin-right: 10px;
+h1,h3 {
+  font-variant-caps: small-caps;
+  font-weight: bold;
 }

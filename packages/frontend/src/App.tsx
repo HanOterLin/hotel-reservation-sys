@@ -9,6 +9,7 @@ import { User } from './types';
 import Register from "./components/Auth/Register";
 import ReservationForm from "./components/Reservation/ReservationForm";
 import { Box, CircularProgress } from "@mui/material";
+import './App.css'
 
 const App: React.FC = () => {
     const [user, setUser] = useState<User | null>(null);
