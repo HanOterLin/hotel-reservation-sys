@@ -21,14 +21,14 @@ Users can register and log in to the system and manage reservations based on the
 - Node.js (version 20.x)
 - MongoDB installed and running (using Docker or locally)
 
-To set up MongoDB using Docker, follow these steps:
+**To set up MongoDB using Docker, follow these steps:**
 
-1. **Pull MongoDB Docker Image**
+1. Pull MongoDB Docker Image
     ```bash
     docker pull mongo
     ```
 
-2. **Run MongoDB Container**
+2. Run MongoDB Container
     ```bash
     docker run --name my-mongo -d -p 27017:27017 mongo
     ```
