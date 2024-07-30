@@ -4,6 +4,7 @@ import { TextField, Button, Typography, Container, Box } from '@mui/material';
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 import {User} from "../../types";
+import 'react-toastify/dist/ReactToastify.css'
 
 interface LoginProps {
     setUser: (user: User) => void;
@@ -21,11 +22,11 @@ const Login: React.FC<LoginProps> = ({ setUser }) => {
             localStorage.setItem('user', JSON.stringify(res.data));
             const token = res.headers['authorization'];
             localStorage.setItem('token', token);
-            toast.success('Login successful');
+            toast.success('Login successful', { autoClose: 1000 });
             navigate('/');
         } catch (err) {
             console.error('Login failed', err);
-            toast.error('Login failed');
+            toast.error('Login failed', { autoClose: 1000 });
         }
     };
 
@@ -34,7 +35,7 @@ const Login: React.FC<LoginProps> = ({ setUser }) => {
     };
 
     return (
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="xs" style={{ minWidth: '400px'}}>
             <Box
                 sx={{
                     display: 'flex',
@@ -42,7 +43,7 @@ const Login: React.FC<LoginProps> = ({ setUser }) => {
                     alignItems: 'center',
                 }}
             >
-                <Typography component="h1" variant="h4">Reservation System</Typography>
+                <Typography component="h1" variant="h4" >Reservation System</Typography>
                 <TextField
                     variant="outlined"
                     margin="normal"
@@ -68,6 +69,7 @@ const Login: React.FC<LoginProps> = ({ setUser }) => {
                     variant="contained"
                     color="primary"
                     onClick={handleLogin}
+                    style={{ marginBottom: '10px' }}
                 >
                     Login
                 </Button>

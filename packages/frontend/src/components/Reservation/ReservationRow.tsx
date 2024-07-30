@@ -72,7 +72,6 @@ const ReservationRow: React.FC<ReservationRowProps> = ({ reservation, user, refe
                 <DatePicker
                     selected={editedArrivalTime}
                     onChange={(date: Date | null) => setEditedArrivalTime(date)}
-                    onBlur={handleSave}
                     minDate={new Date()}
                     customInput={<TextField />}
                 />

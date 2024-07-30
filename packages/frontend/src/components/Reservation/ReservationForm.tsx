@@ -16,6 +16,8 @@ import {
 import { useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 import { CREATE_RESERVATION } from '../queries/mutations';
+import 'react-toastify/dist/ReactToastify.css'
+import {toast} from "react-toastify";
 
 const ReservationForm: React.FC = () => {
     const [guestName, setGuestName] = useState('');
@@ -34,7 +36,13 @@ const ReservationForm: React.FC = () => {
                 arrivalTime: arrivalTime?.getTime() + '',
                 tableSize,
             },
+            context: {
+                headers: {
+                    authentication: `Bearer ${localStorage.getItem('token')}`
+                }
+            },
         });
+        toast.success('Create successful', { autoClose: 1000 });
         navigate('/');
     };
 
@@ -101,7 +109,7 @@ const ReservationForm: React.FC = () => {
                         </FormControl>
                     </Grid>
                     <Grid item xs={12}>
-                        <Button variant="contained" color="primary" onClick={handleSubmit}>
+                        <Button variant="contained" color="primary" onClick={handleSubmit} style={{ marginRight: '10px' }}>
                             Create
                         </Button>
                         <Button variant="outlined" onClick={handleBack}>

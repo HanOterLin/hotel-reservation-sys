@@ -12,7 +12,7 @@ import {
     TableRow,
     Paper,
     Typography,
-    Button, Box, FormControl, InputLabel, Select, MenuItem
+    Button, Box, FormControl, InputLabel, Select, MenuItem, TextField
 } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
@@ -44,7 +44,7 @@ const ReservationList: React.FC<ReservationListProps> = ({ user, setUser }) => {
     });
 
     const handleCreate = () => {
-        navigate('/create-reservation'); // Navigate back to the ReservationList page
+        navigate('/create-reservation');
     };
 
     const handleLogout = () => {
@@ -64,8 +64,8 @@ const ReservationList: React.FC<ReservationListProps> = ({ user, setUser }) => {
     if (error) return <p>Error: {error.message}</p>;
 
     return (
-        <Container>
-            <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
+        <Container style={{ minWidth: '1000px'}}>
+            <Box display="flex" justifyContent="space-between" alignItems="center" mb={3} style={{ marginTop: '30px' }}>
                 <Typography variant="h3" align="center" gutterBottom>
                     Reservation List
                 </Typography>
@@ -79,14 +79,17 @@ const ReservationList: React.FC<ReservationListProps> = ({ user, setUser }) => {
                 </Box>
             </Box>
             <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
-                <DatePicker
-                    selected={selectedDate}
-                    onChange={(date: Date | null) => setSelectedDate(date)}
-                    isClearable
-                    placeholderText="Select Date"
-                />
                 <FormControl variant="outlined" style={{ minWidth: 120 }}>
-                    <InputLabel>Status</InputLabel>
+                    <DatePicker
+                        selected={selectedDate}
+                        onChange={(date: Date | null) => setSelectedDate(date)}
+                        isClearable
+                        placeholderText="Date Filter"
+                        customInput={<TextField />}
+                    />
+                </FormControl>
+                <FormControl variant="outlined" style={{ minWidth: 150 }}>
+                    <InputLabel>Status Filter</InputLabel>
                     <Select
                         value={selectedStatus}
                         onChange={(e) => setSelectedStatus(e.target.value as string)}
