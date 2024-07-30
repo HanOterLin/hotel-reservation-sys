@@ -22,11 +22,11 @@ const Login: React.FC<LoginProps> = ({ setUser }) => {
             localStorage.setItem('user', JSON.stringify(res.data));
             const token = res.headers['authorization'];
             localStorage.setItem('token', token);
-            toast.success('Login successful', { autoClose: 1000 });
+            toast.success('Login successful', { autoClose: 600 });
             navigate('/');
         } catch (err) {
             console.error('Login failed', err);
-            toast.error('Login failed', { autoClose: 1000 });
+            toast.error('Login failed', { autoClose: 600 });
         }
     };
 
