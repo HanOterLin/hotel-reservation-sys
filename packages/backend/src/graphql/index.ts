@@ -1,6 +1,4 @@
 import {RequestWithUser, ReservationStatus, UserRole} from "../types";
-import User from '../models/user';
-import bcrypt from "bcryptjs";
 import express from "express";
 import {ApolloServer, BaseContext} from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';

@@ -1,6 +1,17 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { TextField, Button, Typography, Container, Box } from '@mui/material';
+import {
+    TextField,
+    Button,
+    Typography,
+    Container,
+    Box,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    Grid
+} from '@mui/material';
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 import {User} from "../../types";
@@ -13,11 +24,12 @@ interface LoginProps {
 const Register: React.FC<LoginProps> = ({ setUser }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [role, setRole] = useState('');
     const navigate = useNavigate();
 
     const handleRegister = async () => {
         try {
-            const res = await axios.post('http://localhost:3001/auth/register', { username, password, role: 'guest' });
+            const res = await axios.post('http://localhost:3001/auth/register', { username, password, role });
             setUser(res.data);
             localStorage.setItem('user', JSON.stringify(res.data));
             const token = res.headers['authorization'];
@@ -63,6 +75,18 @@ const Register: React.FC<LoginProps> = ({ setUser }) => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
+                <FormControl fullWidth variant="outlined" margin="normal">
+                    <InputLabel>Role</InputLabel>
+                    <Select
+                        value={role}
+                        onChange={(e) => setRole(e.target.value)}
+                        label="Role"
+                    >
+                        {['guest', 'restaurant_employee'].map(size => (
+                            <MenuItem key={size} value={size}>{size}</MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
                 <Button
                     type="submit"
                     fullWidth
