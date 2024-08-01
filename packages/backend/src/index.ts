@@ -12,7 +12,15 @@ import {UserRoles} from "./constants";
 const app = express();
 const port = 3001;
 
-mongoose.connect('mongodb://127.0.0.1:27017/reservations', {
+const dbHost = process.env.DB_HOST || '127.0.0.1';
+const dbPort = process.env.DB_PORT || 27017;
+const dbName = process.env.DB_NAME || 'restaurant_reservations';
+const dbUser = process.env.MONGO_USERNAME || 'admin';
+const dbPassword = process.env.MONGO_PASSWORD || 'admin';
+
+const dbUrl = `mongodb://${dbUser}:${dbPassword}@${dbHost}:${dbPort}/${dbName}?authSource=admin`;
+
+mongoose.connect(dbUrl, {
     autoCreate: true,
 }).then(async () => {
     console.log('Connected to MongoDB');
@@ -50,7 +58,7 @@ app.listen(port, () => {
     console.log(`GraphQL endpoint at http://localhost:${port}/graphql`);
 });
 
-const errorHandler: ErrorRequestHandler = (err, _, res) => {
+const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
 };

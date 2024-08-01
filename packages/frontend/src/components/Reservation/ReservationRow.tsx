@@ -90,7 +90,7 @@ const ReservationRow: React.FC<ReservationRowProps> = ({ reservation, user, refe
                     </Select>
                 </FormControl>
             </TableCell>
-            <TableCell>
+            <TableCell style={{ minWidth: 130 }}>
                 {(user.role === 'restaurant_employee') ? (
                     <Select
                         value={editedStatus}

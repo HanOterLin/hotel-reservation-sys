@@ -1,55 +1,61 @@
 # Hotel Restaurants Reservation System
 
 ## Project Overview
-The Hotel Restaurants Reservation System is a single-page application built using React, Apollo Client, and GraphQL. 
-Users can register and log in to the system and manage reservations based on their roles (guest or restaurant employee).
+The Hotel Restaurants Reservation System is a single-page application built using React, Apollo Client, and GraphQL. Users can register and log in to the system and manage reservations based on their roles (guest or restaurant employee).
 
 ## Key Features
-- User registration and login
-- Guests can create, view, update, and cancel reservations
-- Restaurant employees can browse, update, and manage all reservations
+- **User Registration and Authentication:** Allows users to register and log in to the system.
+- **Guest Capabilities:** Guests can create, view, update, and cancel their reservations.
+- **Employee Capabilities:** Restaurant employees can browse, update, and manage all reservations.
 
 ## Tech Stack
-- Frontend: React, TypeScript
-- State Management and Data Fetching: Apollo Client, GraphQL
-- Styling: Material-UI
-- Routing: React Router
+- **Frontend:** React, TypeScript
+- **State Management and Data Fetching:** Apollo Client, GraphQL
+- **Styling:** Material-UI
+- **Routing:** React Router
 
-## Installation and Setup
+## One-Time Installation
 
-### Prerequisites
-- Node.js (version 20.x)
-- MongoDB installed and running (using Docker or locally)
-
-**To set up MongoDB using Docker, follow these steps:**
-
-1. Pull MongoDB Docker Image
-    ```bash
-    docker pull mongo
-    ```
-
-2. Run MongoDB Container
-    ```bash
-    docker run --name my-mongo -d -p 27017:27017 mongo
-    ```
-
-   This command will run a MongoDB instance accessible on `mongodb://127.0.0.1:27017`.
-
-### Installation Steps
-1. Clone the project repository
+1. **Clone the Project Repository:**
     ```bash
     git clone https://github.com/HanOterLin/hotel-reservation-sys.git
     cd hotel-reservation-sys
     ```
 
-2. Install dependencies
+2. **Build Images and Run:**
     ```bash
-    npx pnpm install
+    docker compose up
+    ```
+   The project will be available at `http://localhost:3000`.
+
+## Separate Installation (For Debugging)
+
+### Prerequisites
+- **Node.js:** Version 20.x
+- **MongoDB:** Installed and running (using Docker or locally)
+
+### Installation Steps
+
+1. **Run MongoDB Container:**
+    ```bash
+    docker run --name my-mongo -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=admin -d -p 27017:27017 mongo
     ```
 
-3. Start the project
+2. **Clone the Project Repository:**
     ```bash
-    npx pnpm start
+    git clone https://github.com/HanOterLin/hotel-reservation-sys.git
+    cd hotel-reservation-sys
     ```
 
-    The project will run at `http://localhost:3000`.
+3. **Install Dependencies:**
+    ```bash
+    npm config set registry https://registry.npmmirror.com
+    npm i pnpm install -g
+    pnpm -r install
+    ```
+
+4. **Start the Project:**
+    ```bash
+    pnpm -r run start
+    ```
+   The project will be available at `http://localhost:3000`.
