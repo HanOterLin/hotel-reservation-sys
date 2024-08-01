@@ -17,6 +17,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import {Reservation, User} from "../../types";
+import {toast} from "react-toastify";
 
 interface ReservationListProps {
     user: User;
@@ -61,7 +62,13 @@ const ReservationList: React.FC<ReservationListProps> = ({ user, setUser }) => {
     }, [selectedDate, selectedStatus, user, refetch]);
 
     if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error: {error.message}</p>;
+    if (error) {
+        if (error.message.includes('403')) {
+            toast.error('Authentication failed. Please log in again to continue.', {autoClose: 2000});
+            handleLogout();
+        }
+        console.error(error);
+    }
 
     return (
         <Container style={{ minWidth: '1200px'}}>
@@ -117,7 +124,7 @@ const ReservationList: React.FC<ReservationListProps> = ({ user, setUser }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {data.reservations.map((reservation: Reservation) => (
+                        {(data?.reservations || []).map((reservation: Reservation) => (
                             <ReservationRow key={reservation.id} reservation={reservation} user={user}
                                 refetch={refetch} />
                         ))}
