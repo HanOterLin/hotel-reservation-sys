@@ -1,0 +1,39 @@
+version: '3'
+services:
+  database:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    ports:
+      - "27017:27017"
+  frontend:
+    depends_on:
+      - backend
+    build:
+      context: .
+      dockerfile: packages/frontend/Dockerfile
+    working_dir: /usr/src/app/packages/frontend
+    command: ["npm", "start"]
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+
+  backend:
+    depends_on:
+      - database
+    build:
+      context: .
+      dockerfile: packages/backend/Dockerfile
+    working_dir: /usr/src/app/packages/backend
+    command: ["npm", "start"]
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - MONGO_USERNAME=admin
+      - MONGO_PASSWORD=admin
+      - DB_HOST=database
+      - DB_PORT=27017
+      - DB_NAME=restaurant_reservations
