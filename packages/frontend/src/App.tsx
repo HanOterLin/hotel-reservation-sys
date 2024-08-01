@@ -38,10 +38,10 @@ const App: React.FC = () => {
                     <Routes>
                         <Route path="/login" element={<Login setUser={setUser} />} />
                         <Route path="/register" element={<Register setUser={setUser} />} />
-                        <Route path="/create-reservation" element={<ReservationForm />} />
+                        <Route path="/create-reservation" element={<ReservationForm setUser={setUser} />} />
                         <Route
                             path="/create-reservation"
-                            element={user ? <ReservationForm /> : <Navigate to="/login" />}
+                            element={user ? <ReservationForm setUser={setUser} /> : <Navigate to="/login" />}
                         />
                         <Route
                             path="/"

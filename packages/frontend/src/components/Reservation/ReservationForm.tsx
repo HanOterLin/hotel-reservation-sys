@@ -18,15 +18,29 @@ import { useNavigate } from 'react-router-dom';
 import { CREATE_RESERVATION } from '../queries/mutations';
 import 'react-toastify/dist/ReactToastify.css'
 import {toast} from "react-toastify";
+import {User} from "../../types";
 
-const ReservationForm: React.FC = () => {
+interface FormProps {
+    setUser: (user: User | null) => void;
+}
+
+const ReservationForm: React.FC<FormProps> = ({setUser}) => {
     const [guestName, setGuestName] = useState('');
     const [guestContact, setGuestContact] = useState('');
-    const [arrivalTime, setArrivalTime] = useState<Date | null>(null);
-    const [tableSize, setTableSize] = useState<number>(0);
+    const currDate = new Date(new Date().setHours(0, 0, 0, 0));
+    currDate.setDate(currDate.getDate() + 1);
+    const [arrivalTime, setArrivalTime] = useState<Date | null>(currDate);
+    const [tableSize, setTableSize] = useState<number>(2);
 
     const navigate = useNavigate();
     const [createReservation] = useMutation(CREATE_RESERVATION);
+
+    const handleLogout = () => {
+        setUser(null);
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        navigate('/');
+    };
 
     const handleSubmit = async () => {
         await createReservation({
@@ -41,9 +55,18 @@ const ReservationForm: React.FC = () => {
                     authentication: `Bearer ${localStorage.getItem('token')}`
                 }
             },
+        }).then(() => {
+            toast.success('Create successful', {autoClose: 1000});
+            navigate('/');
+        }).catch((err: Error) => {
+            if (err.message.includes('403')) {
+                toast.error('Authentication failed. Please log in again to continue.', {autoClose: 2000});
+                handleLogout();
+            } else {
+                toast.error('Create Failed', {autoClose: 2000});
+                console.error(err);
+            }
         });
-        toast.success('Create successful', { autoClose: 600 });
-        navigate('/');
     };
 
     const handleBack = () => {

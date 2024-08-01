@@ -19,7 +19,7 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
         const tokenWithoutBearer = token.split(' ')[1];
         jwtPayload = jwt.verify(tokenWithoutBearer, secret) as JwtPayload;
     } catch (err) {
-        return res.status(500).send({ message: 'Failed to authenticate token' });
+        return res.status(403).send({ message: 'Failed to authenticate token' });
     }
 
     if (!jwtPayload) return res.status(403).send({ message: 'No token provided' });
