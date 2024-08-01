@@ -5,7 +5,7 @@
     "packages/*"
   ],
   "scripts": {
-    "start": "lerna run start --parallel"
+    "back": "lerna run start --parallel"
   },
   "devDependencies": {
     "@eslint/js": "9.7.0",

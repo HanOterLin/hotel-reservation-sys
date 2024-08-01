@@ -4,7 +4,8 @@
   "scripts": {
     "test": "jest",
     "build": "tsc -b",
-    "start": "nodemon"
+    "dev": "nodemon",
+    "start": "npm start"
   },
   "keywords": [],
   "author": "",
