@@ -1,5 +1,5 @@
 import request from 'supertest';
-import app from '../index';
+import {app, server, mongoose} from '../index';
 
 describe('Auth Endpoints', () => {
     const username = 'testuser_' + Date.now();
@@ -27,5 +27,9 @@ describe('Auth Endpoints', () => {
             });
         expect(res.statusCode).toEqual(200);
         expect(res.body).toHaveProperty('accessToken');
+    });
+
+    afterAll((done) => {
+        mongoose.disconnect().finally(() => server.close(done));
     });
 });
