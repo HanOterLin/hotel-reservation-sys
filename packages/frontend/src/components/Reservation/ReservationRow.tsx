@@ -9,7 +9,7 @@ import {Reservation, User} from "../../types";
 interface ReservationRowProps {
     reservation: Reservation;
     user: User;
-    refetch: (variables?: Partial<OperationVariables>) => Promise<ApolloQueryResult<any>>;
+    refetch: (variables?: Partial<OperationVariables>) => Promise<ApolloQueryResult<unknown>>;
 }
 
 

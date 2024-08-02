@@ -16,7 +16,7 @@ import {
 import { useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 import { CREATE_RESERVATION } from '../queries/mutations';
-import 'react-toastify/dist/ReactToastify.css'
+import 'react-toastify/dist/ReactToastify.css';
 import {toast} from "react-toastify";
 import {User} from "../../types";
 

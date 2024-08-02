@@ -5,15 +5,13 @@
     "packages/*"
   ],
   "scripts": {
-    "back": "lerna run start --parallel"
+    "lint": "eslint . --fix"
   },
   "devDependencies": {
     "@eslint/js": "9.7.0",
     "@types/eslint__js": "8.42.3",
     "eslint": "8.57.0",
-    "lerna": "^8.1.7",
     "typescript": "5.5.4",
     "typescript-eslint": "7.17.0"
-  },
-  "dependencies": {}
+  }
 }
