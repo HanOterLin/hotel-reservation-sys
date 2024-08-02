@@ -42,8 +42,8 @@ export const login = async (req: Request, res: Response) => {
         const token = jwt.sign({ userId: user._id, role: user.role }, secret, { expiresIn: 24 * 60 * 60 });
 
         res.setHeader('Authorization', token);
-        res.status(200).send({ id: user._id, username: user.username, role: user.role, accessToken: token });
+        res.status(200).send({ username: user.username, role: user.role, accessToken: token });
     } catch (err) {
-        res.status(500).send({ message: (err as Error).message });
+        res.status(403).send({ message: (err as Error).message });
     }
 };
