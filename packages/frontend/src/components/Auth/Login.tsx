@@ -4,7 +4,7 @@ import { TextField, Button, Typography, Container, Box } from '@mui/material';
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 import {User} from "../../types";
-import 'react-toastify/dist/ReactToastify.css'
+import 'react-toastify/dist/ReactToastify.css';
 
 interface LoginProps {
     setUser: (user: User) => void;

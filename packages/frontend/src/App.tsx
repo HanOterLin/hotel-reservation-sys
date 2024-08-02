@@ -9,7 +9,7 @@ import { User } from './types';
 import Register from "./components/Auth/Register";
 import ReservationForm from "./components/Reservation/ReservationForm";
 import { Box, CircularProgress } from "@mui/material";
-import './App.css'
+import './App.css';
 
 const App: React.FC = () => {
     const [user, setUser] = useState<User | null>(null);
@@ -45,7 +45,8 @@ const App: React.FC = () => {
                         />
                         <Route
                             path="/"
-                            element={user ? <ReservationList user={user} setUser={setUser} /> : <Navigate to="/login" />}
+                            element={user ?
+                                <ReservationList user={user} setUser={setUser} /> : <Navigate to="/login" />}
                         />
                     </Routes>
                     <Toast />
