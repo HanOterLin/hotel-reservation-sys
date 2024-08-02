@@ -53,11 +53,12 @@ app.use('/graphql', verifyToken);
 
 setupGraphQL(app);
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
     console.log(`GraphQL endpoint at http://localhost:${port}/graphql`);
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
@@ -98,4 +99,4 @@ process.on('rejectionHandled', (promise) => {
     console.log('A rejected promise was handled:', promise);
 });
 
-export default app;
+export {app, server, mongoose};

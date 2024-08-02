@@ -5,6 +5,7 @@
     "test": "jest",
     "build": "npx tsc -b",
     "dev": "nodemon",
+    "lint": "eslint .",
     "start": "node dist/index.js"
   },
   "keywords": [],
