@@ -6,6 +6,8 @@ const client = new ApolloClient({
     headers: {
         authentication: `Bearer ${localStorage.getItem('token')}`,
     },
+    name: 'WebSite',
+    version: '1.0'
 });
 
 export default client;
