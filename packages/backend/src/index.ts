@@ -17,7 +17,7 @@ if (process.env.NODE_ENV) {
     process.exit(1);
 }
 
-await connectDB();
+connectDB();
 
 const app = express();
 
