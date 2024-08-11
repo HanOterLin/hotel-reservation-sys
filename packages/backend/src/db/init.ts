@@ -3,12 +3,15 @@ import { UserRoles } from '../constants';
 import logger from '../utils/logger';
 import { hashPassword } from '../utils/hash_password';
 
+const DEFAULT_USER_NAME = process.env.DEFAULT_USER_NAME || 'admin';
+const DEFAULT_USER_PASSWORD = process.env.DEFAULT_USER_PASSWORD || 'admin';
+
 const initializeDB = async () => {
     try {
-        await User.findOneAndDelete({ username: 'admin' });
+        await User.findOneAndDelete({ username: DEFAULT_USER_NAME });
         const newUser = new User({
-            username: 'admin',
-            password: hashPassword('admin'),
+            username: DEFAULT_USER_NAME,
+            password: hashPassword(DEFAULT_USER_PASSWORD),
             role: UserRoles.EMPLOYEE
         });
         await newUser.save();

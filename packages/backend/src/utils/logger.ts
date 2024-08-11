@@ -1,12 +1,14 @@
 import winston from 'winston';
 import { UserContext } from '../types';
 
-const logger = winston.createLogger({
+const winstonLogger = winston.createLogger({
     level: 'info',
     format: winston.format.combine(
         winston.format.timestamp(),
         winston.format.printf(({ level, message, timestamp, ...meta }) => {
-            return `${timestamp} [${level.toUpperCase()}]: ${message} ${JSON.stringify(meta)}`;
+            const metaStr = JSON.stringify(meta);
+
+            return `${timestamp} [${level.toUpperCase()}]: ${message} ${metaStr === '{}' ? '' : metaStr}`;
         })
     ),
     transports: [
@@ -18,40 +20,24 @@ const logger = winston.createLogger({
 
 function log(level: string, message: string, ctx?: UserContext) {
     if (ctx) {
-        logger.log(level, message, ctx);
+        winstonLogger.log(level, message, ctx);
     } else {
-        logger.log(level, message);
+        winstonLogger.log(level, message);
     }
 }
 
-interface CustomLogger extends winston.Logger {
-    error(ctx: UserContext, message: string): void;
-    warn(ctx: UserContext, message: string): void;
-    info(ctx: UserContext, message: string): void;
-    debug(ctx: UserContext, message: string): void;
-    verbose(ctx: UserContext, message: string): void;
-    silly(ctx: UserContext, message: string): void;
-}
+const logger = Object.assign(winstonLogger, {
+    error: (message: string, ctx: UserContext) => log('error', message, ctx),
+    warn: (message: string, ctx: UserContext) => log('warn', message, ctx),
+    info: (message: string, ctx: UserContext) => log('info', message, ctx),
+    debug: (message: string, ctx: UserContext) => log('debug', message, ctx),
+    verbose: (message: string, ctx: UserContext) => log('verbose', message, ctx),
+    silly: (message: string, ctx: UserContext) => log('silly', message, ctx),
 
-type ExtendedLogger = CustomLogger & {
-    sys_error(message: string): void;
-    sys_warn(message: string): void;
-    sys_info(message: string): void;
-    sys_debug(message: string): void;
-};
+    sys_error: (message: string) => log('error', message),
+    sys_warn: (message: string) => log('warn', message),
+    sys_info: (message: string) => log('info', message),
+    sys_debug: (message: string) => log('debug', message),
+});
 
-const customLogger = logger as ExtendedLogger;
-
-customLogger.error = (ctx: UserContext, message: string) => log('error', message, ctx);
-customLogger.warn = (ctx: UserContext, message: string) => log('warn', message, ctx);
-customLogger.info = (ctx: UserContext, message: string) => log('info', message, ctx);
-customLogger.debug = (ctx: UserContext, message: string) => log('debug', message, ctx);
-customLogger.verbose = (ctx: UserContext, message: string) => log('verbose', message, ctx);
-customLogger.silly = (ctx: UserContext, message: string) => log('silly', message, ctx);
-
-customLogger.sys_error = (message: string) => log('error', message);
-customLogger.sys_warn = (message: string) => log('warn', message);
-customLogger.sys_info = (message: string) => log('info', message);
-customLogger.sys_debug = (message: string) => log('debug', message);
-
-export default customLogger;
+export default logger;

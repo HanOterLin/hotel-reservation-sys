@@ -40,22 +40,22 @@ describe('Logger Module', () => {
     });
 
     it('should log an error message with user context', () => {
-        logger.error(mockContext, 'An error occurred');
+        logger.error('An error occurred', mockContext);
         expect(spyLog).toHaveBeenCalledWith('error', 'An error occurred', mockContext);
     });
 
     it('should log an info message with user context', () => {
-        logger.info(mockContext, 'An info message');
+        logger.info( 'An info message', mockContext);
         expect(spyLog).toHaveBeenCalledWith('info', 'An info message', mockContext);
     });
 
     it('should log a warning message with user context', () => {
-        logger.warn(mockContext, 'A warning message');
+        logger.warn( 'A warning message', mockContext);
         expect(spyLog).toHaveBeenCalledWith('warn', 'A warning message', mockContext);
     });
 
     it('should log a debug message with user context', () => {
-        logger.debug(mockContext, 'A debug message');
+        logger.debug( 'A debug message', mockContext);
         expect(spyLog).toHaveBeenCalledWith('debug', 'A debug message', mockContext);
     });
 });

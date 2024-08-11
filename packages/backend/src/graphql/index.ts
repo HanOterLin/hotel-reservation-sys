@@ -129,8 +129,8 @@ export const setupGraphQL = async (app: express.Application) => {
         context: async ({ req }) => {
             const request = req as RequestWithUser;
             return {
-                userId: request.userId,
-                role: request.role,
+                userId: request.ctx.userId,
+                role: request.ctx.role,
             };
         }
     }));

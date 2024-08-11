@@ -1,16 +1,25 @@
-import express, {ErrorRequestHandler } from 'express';
+import express, { ErrorRequestHandler } from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
 import authRoutes from './routes/auth';
 import { setupGraphQL } from './graphql';
 import { verifyJWT } from './middlewares/auth.middleware';
-import connectDB from './config/db';
+import { connectDB, disconnectDB } from './config/db';
+import logger from './utils/logger';
+
+// env
+if (process.env.NODE_ENV) {
+    dotenv.config({ path: `./envs/${process.env.NODE_ENV}.env` });
+} else {
+    logger.sys_error('Invalid env!');
+    process.exit(1);
+}
+
+await connectDB();
 
 const app = express();
-const port = 3001;
-
-connectDB();
 
 // Set up CORS options
 app.use(cors({
@@ -25,12 +34,12 @@ app.use((req, res, next) => {
     next();
 });
 
-
 app.use('/auth', authRoutes);
 app.use('/graphql', verifyJWT);
 
 setupGraphQL(app);
 
+const port = process.env.SERVER_PORT;
 const server = app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
     console.log(`GraphQL endpoint at http://localhost:${port}/graphql`);
@@ -47,28 +56,28 @@ app.use(errorHandler);
 // listen process
 process.on('SIGINT', async () => {
     console.log('SIGINT signal received: closing MongoDB connection');
-    await mongoose.disconnect();
+    await disconnectDB();
     console.log('MongoDB connection closed');
     process.exit(0);
 });
 
 process.on('SIGTERM', async () => {
     console.log('SIGTERM signal received: closing MongoDB connection');
-    await mongoose.disconnect();
+    await disconnectDB();
     console.log('MongoDB connection closed');
     process.exit(0);
 });
 
 process.on('uncaughtException', async (err) => {
     console.error('There was an uncaught error:', err);
-    await mongoose.disconnect();
+    await disconnectDB();
     console.log('MongoDB connection closed due to uncaught exception');
     process.exit(1);
 });
 
 process.on('unhandledRejection', async (reason, promise) => {
     console.error('Unhandled Rejection at:', promise, 'reason:', reason);
-    await mongoose.disconnect();
+    await disconnectDB();
     console.log('MongoDB connection closed due to unhandled rejection');
     process.exit(1);
 });
@@ -77,4 +86,4 @@ process.on('rejectionHandled', (promise) => {
     console.log('A rejected promise was handled:', promise);
 });
 
-export {app, server, mongoose};
+export { app, server, mongoose };

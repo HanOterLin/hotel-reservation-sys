@@ -9,16 +9,19 @@ const dbPassword = process.env.MONGO_PASSWORD || 'admin';
 
 const dbUrl = `mongodb://${dbUser}:${dbPassword}@${dbHost}:${dbPort}/${dbName}?authSource=admin`;
 
-const connectDB = async () => {
+export const connectDB = async () => {
     try {
-        const conn = await mongoose.connect(dbUrl, {
+        await mongoose.connect(dbUrl, {
             autoCreate: true,
         });
-        logger.sys_info(`MongoDB Connected: ${conn.connection.host}`);
+        logger.sys_info(`MongoDB Connected: ${dbHost}`);
     } catch (error) {
         logger.sys_error(`Error connecting to MongoDB: ${error}`);
         throw error;
     }
 };
 
-export default connectDB;
+export const disconnectDB = async () => {
+    await mongoose.disconnect();
+    logger.sys_info('Database disconnected');
+};
