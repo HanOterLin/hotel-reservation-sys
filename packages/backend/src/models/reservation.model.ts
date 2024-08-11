@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from 'mongoose';
-import {ReservationStatus} from "../types";
+import {ReservationStatus} from '../types';
 
 export interface IReservation extends Document {
     guestId: mongoose.Types.ObjectId;

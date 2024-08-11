@@ -1,6 +1,6 @@
-import logger from './logger';
-import { UserContext } from './types';
-import winston from "winston";
+import logger from '../logger';
+import { UserContext } from '../../types';
+import winston from 'winston';
 
 describe('Logger Module', () => {
 

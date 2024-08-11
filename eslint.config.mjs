@@ -14,6 +14,8 @@ export default tseslint.config(
         rules: {
             "max-len": ["error", {code: 120}],
             "semi": ["error", "always"],
+            "indent": ["error", 4],
+            "quotes": ["error", "single"],
         }
     }
 );

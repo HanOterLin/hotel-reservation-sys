@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { TextField, Button, Typography, Container, Box } from '@mui/material';
 import { toast } from 'react-toastify';
-import { useNavigate } from "react-router-dom";
-import {User} from "../../types";
+import { useNavigate } from 'react-router-dom';
+import {User} from '../../types';
 import 'react-toastify/dist/ReactToastify.css';
 
 interface LoginProps {

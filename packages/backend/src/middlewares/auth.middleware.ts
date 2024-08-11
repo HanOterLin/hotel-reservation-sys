@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt, { JwtPayload, Secret } from 'jsonwebtoken';
-
-const secret: Secret = 'secret_key';
+import { JwtPayload } from 'jsonwebtoken';
+import { verifyToken } from '../utils/jwt';
 
 /**
  * Verify the token and extract user information
@@ -9,7 +8,7 @@ const secret: Secret = 'secret_key';
  * @param {Response} res - Express response object
  * @param {NextFunction} next - Express next function
  */
-export const verifyToken = (req: Request, res: Response, next: NextFunction) => {
+export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers['authentication'] as string;
 
     if (!token) return res.status(403).send({ message: 'No token provided' });
@@ -17,7 +16,7 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
     let jwtPayload;
     try {
         const tokenWithoutBearer = token.split(' ')[1];
-        jwtPayload = jwt.verify(tokenWithoutBearer, secret) as JwtPayload;
+        jwtPayload = verifyToken(tokenWithoutBearer) as JwtPayload;
     } catch (err) {
         return res.status(403).send({ message: 'Failed to authenticate token' });
     }

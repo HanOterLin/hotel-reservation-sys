@@ -14,10 +14,10 @@ import {
     Typography,
     Button, Box, FormControl, InputLabel, Select, MenuItem, TextField, Stack
 } from '@mui/material';
-import { useNavigate } from "react-router-dom";
-import DatePicker from "react-datepicker";
-import {Reservation, User} from "../../types";
-import {toast} from "react-toastify";
+import { useNavigate } from 'react-router-dom';
+import DatePicker from 'react-datepicker';
+import {Reservation, User} from '../../types';
+import {toast} from 'react-toastify';
 
 interface ReservationListProps {
     user: User;
@@ -31,18 +31,18 @@ const ReservationList: React.FC<ReservationListProps> = ({ user, setUser }) => {
 
     const { loading, error, data, refetch } = useQuery(
         GET_RESERVATIONS, {
-        variables: {
-            userId: user.role === 'guest' ? user.id : undefined,
-            arrivalTime: selectedDate ? (selectedDate.getTime() + '') : undefined,
-            status: selectedStatus || undefined,
-        },
-        context: {
-            headers: {
-                authentication: `Bearer ${localStorage.getItem('token')}`
-            }
-        },
-        skip: !user,
-    });
+            variables: {
+                userId: user.role === 'guest' ? user.id : undefined,
+                arrivalTime: selectedDate ? (selectedDate.getTime() + '') : undefined,
+                status: selectedStatus || undefined,
+            },
+            context: {
+                headers: {
+                    authentication: `Bearer ${localStorage.getItem('token')}`
+                }
+            },
+            skip: !user,
+        });
 
     const handleCreate = () => {
         navigate('/create-reservation');
@@ -115,12 +115,12 @@ const ReservationList: React.FC<ReservationListProps> = ({ user, setUser }) => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell align={"center"}>Guest Name</TableCell>
-                            <TableCell align={"center"}>Guest Contact</TableCell>
-                            <TableCell align={"center"}>Arrival Time</TableCell>
-                            <TableCell align={"center"}>Table Size</TableCell>
-                            <TableCell align={"center"}>Status</TableCell>
-                            <TableCell align={"center"}>Actions</TableCell>
+                            <TableCell align={'center'}>Guest Name</TableCell>
+                            <TableCell align={'center'}>Guest Contact</TableCell>
+                            <TableCell align={'center'}>Arrival Time</TableCell>
+                            <TableCell align={'center'}>Table Size</TableCell>
+                            <TableCell align={'center'}>Status</TableCell>
+                            <TableCell align={'center'}>Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

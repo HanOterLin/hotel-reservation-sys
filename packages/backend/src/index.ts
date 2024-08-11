@@ -4,35 +4,13 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import authRoutes from './routes/auth';
 import { setupGraphQL } from './graphql';
-import User from "./models/user";
-import bcrypt from "bcryptjs";
-import { verifyToken } from "./middlewares/authMiddleware";
-import {UserRoles} from "./constants";
+import { verifyJWT } from './middlewares/auth.middleware';
+import connectDB from './config/db';
 
 const app = express();
 const port = 3001;
 
-const dbHost = process.env.DB_HOST || '127.0.0.1';
-const dbPort = process.env.DB_PORT || 27017;
-const dbName = process.env.DB_NAME || 'restaurant_reservations';
-const dbUser = process.env.MONGO_USERNAME || 'admin';
-const dbPassword = process.env.MONGO_PASSWORD || 'admin';
-
-const dbUrl = `mongodb://${dbUser}:${dbPassword}@${dbHost}:${dbPort}/${dbName}?authSource=admin`;
-
-mongoose.connect(dbUrl, {
-    autoCreate: true,
-}).then(async () => {
-    console.log('Connected to MongoDB');
-
-    // init: default user 'admin'
-    await User.findOneAndDelete({ username: 'admin' });
-    const newUser = new User({ username: 'admin', password: bcrypt.hashSync('admin', 8), role: UserRoles.EMPLOYEE });
-    await newUser.save();
-
-}).catch(err => {
-    console.error('Error connecting to MongoDB', err);
-});
+connectDB();
 
 // Set up CORS options
 app.use(cors({
@@ -49,7 +27,7 @@ app.use((req, res, next) => {
 
 
 app.use('/auth', authRoutes);
-app.use('/graphql', verifyToken);
+app.use('/graphql', verifyJWT);
 
 setupGraphQL(app);
 

@@ -6,9 +6,9 @@ import Login from './components/Auth/Login';
 import ReservationList from './components/Reservation/ReservationList';
 import Toast from './components/Toast/Toast';
 import { User } from './types';
-import Register from "./components/Auth/Register";
-import ReservationForm from "./components/Reservation/ReservationForm";
-import { Box, CircularProgress } from "@mui/material";
+import Register from './components/Auth/Register';
+import ReservationForm from './components/Reservation/ReservationForm';
+import { Box, CircularProgress } from '@mui/material';
 import './App.css';
 
 const App: React.FC = () => {

@@ -3,8 +3,8 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import {TextField, TableRow, TableCell, Button, Select, MenuItem, InputLabel, FormControl} from '@mui/material';
 import { ApolloQueryResult, OperationVariables, useMutation } from '@apollo/client';
-import { UPDATE_RESERVATION } from "../queries/mutations";
-import {Reservation, User} from "../../types";
+import { UPDATE_RESERVATION } from '../queries/mutations';
+import {Reservation, User} from '../../types';
 
 interface ReservationRowProps {
     reservation: Reservation;

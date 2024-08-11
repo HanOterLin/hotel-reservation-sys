@@ -1,5 +1,5 @@
 import winston from 'winston';
-import { UserContext } from "./types";
+import { UserContext } from '../types';
 
 const logger = winston.createLogger({
     level: 'info',

@@ -1,11 +1,11 @@
-import {RequestWithUser, ReservationStatus, UserRole} from "../types";
-import express from "express";
+import {RequestWithUser, ReservationStatus, UserRole} from '../types';
+import express from 'express';
 import {ApolloServer, BaseContext} from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
-import * as http from "node:http";
-import {ReservStatus, UserRoles} from "../constants";
-import Reservation from "../models/reservation";
+import * as http from 'node:http';
+import {ReservStatus, UserRoles} from '../constants';
+import Reservation from '../models/reservation.model';
 
 interface ApolloContext extends BaseContext{
     userId: string;
